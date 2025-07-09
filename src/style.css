@@ -1,13 +1,14 @@
-/* 重置所有元素的默认样式 */
-* {
+html,
+body,
+#app {
+  height: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html,
-body,
+/* 确保路由视图也占满高度 */
 #app {
-  height: 100%;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
