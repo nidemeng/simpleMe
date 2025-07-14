@@ -45,24 +45,30 @@
                     :collapsed-width="64">
                     <a-menu :default-selected-keys="[activeMenu]" :style="{ width: '100%', height: '100%' }"
                         @menu-item-click="handleMenuClick">
-                        <a-menu-item key="dashboard">
-                            <template #icon>
-                                <icon-home />
-                            </template>
-                            <span>首页</span>
-                        </a-menu-item>
-                        <a-menu-item key="chat">
-                            <template #icon>
-                                <icon-message />
-                            </template>
-                            <span>聊天</span>
-                        </a-menu-item>
-                        <a-menu-item key="docs">
-                            <template #icon>
-                                <icon-file />
-                            </template>
-                            <span>文档</span>
-                        </a-menu-item>
+                        <router-link to="/home">
+                            <a-menu-item key="dashboard">
+                                <template #icon>
+                                    <icon-home />
+                                </template>
+                                <span>首页</span>
+                            </a-menu-item>
+                        </router-link>
+                        <router-link to="/chat">
+                            <a-menu-item key="chat">
+                                <template #icon>
+                                    <icon-message />
+                                </template>
+                                <span>聊天</span>
+                            </a-menu-item>
+                        </router-link>
+                        <router-link to="/docs">
+                            <a-menu-item key="docs">
+                                <template #icon>
+                                    <icon-file />
+                                </template>
+                                <span>文档</span>
+                            </a-menu-item>
+                        </router-link>
                     </a-menu>
                 </a-layout-sider>
                 <!-- 右侧内容区域 -->
@@ -85,7 +91,7 @@ import {
     IconMessage,
     IconFile,
 } from '@arco-design/web-vue/es/icon'
-import { RouterView } from 'vue-router'
+import { RouterView, RouterLink } from 'vue-router'
 
 
 // 用户信息

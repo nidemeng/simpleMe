@@ -4,16 +4,29 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        name: 'Index',
         component: () => import('@/views/index.vue'),
-        meta: { title: '首页' }
+        meta: { title: '首页' },
+        children: [
+            {
+                path: '/home',
+                name: 'Home',
+                component: () => import('@/views/Home/home.vue'),
+                meta: { title: '聊天' }
+            },
+            {
+                path: '/chat',
+                name: 'Chat',
+                component: () => import('@/views/Chat/chat.vue'),
+                meta: { title: '聊天' }
+            },
+            {
+                path: '/docs',
+                name: 'docs',
+                component: () => import('@/views/Docs/docs.vue'),
+                meta: { title: '文件' }
+            }
+        ]
     },
-    {
-        path: '/login',
-        name: 'Login',
-        component: () => import('@/views/Login/login.vue'),
-        meta: { title: '登录' }
-    }
 ]
 
 // 创建路由实例

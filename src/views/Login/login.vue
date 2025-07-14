@@ -1,29 +1,26 @@
 <template>
     <div class="login-container">
-        <!-- 左侧装饰区域 -->
-        <div class="decoration-area">
-            <div class="brand-section">
-                <div class="logo">
-                    <div class="logo-icon"></div>
-                    <span class="brand-name">SimpleMe</span>
-                </div>
-                <h1 class="welcome-title">欢迎使用 SimpleMe</h1>
-                <p class="welcome-subtitle">简单高效的协作平台</p>
-            </div>
-
-            <!-- 装饰图形 -->
-            <div class="decoration-graphics">
-                <div class="graphic-item graphic-1"></div>
-                <div class="graphic-item graphic-2"></div>
-                <div class="graphic-item graphic-3"></div>
-            </div>
+        <!-- 背景装饰 -->
+        <div class="background-decoration">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
         </div>
 
-        <!-- 右侧登录区域 -->
-        <div class="login-area">
-            <div class="login-box">
+        <!-- 中央登录区域 -->
+        <div class="login-wrapper">
+            <div class="login-card">
+                <!-- 品牌logo -->
+                <div class="brand-header">
+                    <div class="logo">
+                        <div class="logo-icon">S</div>
+                        <span class="brand-name">SimpleMe</span>
+                    </div>
+                    <p class="brand-subtitle">简单高效的协作平台</p>
+                </div>
+
                 <!-- 标题切换 -->
-                <div class="tab-header">
+                <div class="tab-switcher">
                     <button :class="['tab-btn', { active: loginOrRegister === 'login' }]"
                         @click="loginOrRegister = 'login'">
                         登录
@@ -35,9 +32,9 @@
                 </div>
 
                 <!-- 登录表单 -->
-                <div v-if="loginOrRegister === 'login'" class="form-content">
+                <div v-if="loginOrRegister === 'login'" class="form-section">
                     <a-form :model="loginForm" @submit="handleLogin" layout="vertical">
-                        <a-form-item class="form-item">
+                        <a-form-item>
                             <a-input v-model:value="loginForm.username" placeholder="手机号/邮箱/用户名" size="large"
                                 class="input-field">
                                 <template #prefix>
@@ -46,7 +43,7 @@
                             </a-input>
                         </a-form-item>
 
-                        <a-form-item class="form-item">
+                        <a-form-item>
                             <a-input-password v-model:value="loginForm.password" placeholder="请输入密码" size="large"
                                 class="input-field">
                                 <template #prefix>
@@ -55,18 +52,18 @@
                             </a-input-password>
                         </a-form-item>
 
-                        <!-- 记住密码和忘记密码 -->
+                        <!-- 选项行 -->
                         <div class="form-options">
-                            <a-checkbox v-model="rememberPassword" class="remember-checkbox">
+                            <a-checkbox v-model="rememberPassword" class="remember-me">
                                 记住密码
                             </a-checkbox>
-                            <a-link class="forgot-link" @click="handleForgotPassword">
+                            <a-link class="forgot-password" @click="handleForgotPassword">
                                 忘记密码？
                             </a-link>
                         </div>
 
-                        <a-form-item class="form-item">
-                            <a-button type="primary" html-type="submit" size="large" block class="submit-btn"
+                        <a-form-item>
+                            <a-button type="primary" html-type="submit" size="large" block class="submit-button"
                                 :loading="loading">
                                 登录
                             </a-button>
@@ -75,9 +72,9 @@
                 </div>
 
                 <!-- 注册表单 -->
-                <div v-if="loginOrRegister === 'register'" class="form-content">
+                <div v-if="loginOrRegister === 'register'" class="form-section">
                     <a-form :model="registerForm" @submit="handleRegister" layout="vertical">
-                        <a-form-item class="form-item">
+                        <a-form-item>
                             <a-input v-model:value="registerForm.email" placeholder="请输入邮箱" size="large"
                                 class="input-field">
                                 <template #prefix>
@@ -86,7 +83,7 @@
                             </a-input>
                         </a-form-item>
 
-                        <a-form-item class="form-item">
+                        <a-form-item>
                             <a-input v-model:value="registerForm.username" placeholder="请输入用户名" size="large"
                                 class="input-field">
                                 <template #prefix>
@@ -95,7 +92,7 @@
                             </a-input>
                         </a-form-item>
 
-                        <a-form-item class="form-item">
+                        <a-form-item>
                             <a-input-password v-model:value="registerForm.password" placeholder="请输入密码" size="large"
                                 class="input-field">
                                 <template #prefix>
@@ -104,7 +101,7 @@
                             </a-input-password>
                         </a-form-item>
 
-                        <!-- 同意协议 -->
+                        <!-- 协议同意 -->
                         <div class="agreement-section">
                             <a-checkbox v-model="agreeTerms" class="agreement-checkbox">
                                 我已阅读并同意
@@ -114,8 +111,8 @@
                             </a-checkbox>
                         </div>
 
-                        <a-form-item class="form-item">
-                            <a-button type="primary" html-type="submit" size="large" block class="submit-btn"
+                        <a-form-item>
+                            <a-button type="primary" html-type="submit" size="large" block class="submit-button"
                                 :loading="loading" :disabled="!agreeTerms">
                                 注册
                             </a-button>
@@ -124,18 +121,18 @@
                 </div>
 
                 <!-- 第三方登录 -->
-                <div class="third-party-login">
-                    <div class="divider-line">
+                <div class="social-login">
+                    <div class="divider">
                         <span>其他登录方式</span>
                     </div>
                     <div class="social-buttons">
-                        <button class="social-btn wechat-btn" @click="handleSocialLogin('wechat')">
+                        <button class="social-btn wechat" @click="handleSocialLogin('wechat')">
                             <div class="social-icon wechat-icon"></div>
                         </button>
-                        <button class="social-btn qq-btn" @click="handleSocialLogin('qq')">
+                        <button class="social-btn qq" @click="handleSocialLogin('qq')">
                             <div class="social-icon qq-icon"></div>
                         </button>
-                        <button class="social-btn github-btn" @click="handleSocialLogin('github')">
+                        <button class="social-btn github" @click="handleSocialLogin('github')">
                             <div class="social-icon github-icon"></div>
                         </button>
                     </div>
@@ -223,95 +220,39 @@ const handleSocialLogin = (platform: string) => {
 
 <style scoped>
 .login-container {
-    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
-    background: #f5f5f5;
-}
-
-/* 左侧装饰区域 */
-.decoration-area {
-    flex: 1;
-    background: linear-gradient(135deg, #1890ff 0%, #722ed1 100%);
-    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 60px;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
     overflow: hidden;
 }
 
-.brand-section {
-    text-align: center;
-    z-index: 2;
-    position: relative;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40px;
-}
-
-.logo-icon {
-    width: 48px;
-    height: 48px;
-    background: #fff;
-    border-radius: 12px;
-    margin-right: 12px;
-    position: relative;
-}
-
-.logo-icon::after {
-    content: 'S';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #1890ff;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.brand-name {
-    color: #fff;
-    font-size: 24px;
-    font-weight: 600;
-}
-
-.welcome-title {
-    color: #fff;
-    font-size: 42px;
-    font-weight: 300;
-    margin: 0 0 16px 0;
-    letter-spacing: 1px;
-}
-
-.welcome-subtitle {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 18px;
-    margin: 0;
-    font-weight: 300;
-}
-
-/* 装饰图形 */
-.decoration-graphics {
+/* 背景装饰 */
+.background-decoration {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    pointer-events: none;
 }
 
-.graphic-item {
+.floating-shape {
     position: absolute;
-    border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
     animation: float 20s ease-in-out infinite;
 }
 
-.graphic-1 {
+.shape-1 {
     width: 200px;
     height: 200px;
     top: 10%;
@@ -319,20 +260,20 @@ const handleSocialLogin = (platform: string) => {
     animation-delay: 0s;
 }
 
-.graphic-2 {
+.shape-2 {
     width: 150px;
     height: 150px;
-    top: 60%;
+    top: 50%;
     right: 15%;
-    animation-delay: 7s;
+    animation-delay: 8s;
 }
 
-.graphic-3 {
-    width: 100px;
-    height: 100px;
+.shape-3 {
+    width: 120px;
+    height: 120px;
     bottom: 20%;
     left: 20%;
-    animation-delay: 14s;
+    animation-delay: 16s;
 }
 
 @keyframes float {
@@ -343,66 +284,110 @@ const handleSocialLogin = (platform: string) => {
     }
 
     33% {
-        transform: translateY(-30px) scale(1.1);
+        transform: translateY(-20px) scale(1.02);
     }
 
     66% {
-        transform: translateY(20px) scale(0.9);
+        transform: translateY(15px) scale(0.98);
     }
 }
 
-/* 右侧登录区域 */
-.login-area {
-    width: 480px;
-    background: #fff;
+/* 登录包装器 */
+.login-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* 登录卡片 */
+.login-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 品牌头部 */
+.brand-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    margin-bottom: 12px;
 }
 
-.login-box {
-    width: 100%;
-    max-width: 360px;
-}
-
-/* 标签切换 */
-.tab-header {
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
     display: flex;
-    margin-bottom: 40px;
-    background: #f0f0f0;
-    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.brand-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: -0.5px;
+}
+
+.brand-subtitle {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* 标签切换器 */
+.tab-switcher {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 12px;
     padding: 4px;
+    margin-bottom: 24px;
 }
 
 .tab-btn {
     flex: 1;
-    padding: 12px;
+    padding: 10px;
     background: none;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     color: #666;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .tab-btn.active {
-    background: #fff;
-    color: #1890ff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: white;
+    color: #667eea;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
 }
 
-/* 表单内容 */
-.form-content {
-    animation: fadeIn 0.3s ease;
+/* 表单区域 */
+.form-section {
+    animation: slideIn 0.4s ease;
 }
 
-@keyframes fadeIn {
+@keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(20px);
     }
 
     to {
@@ -411,34 +396,43 @@ const handleSocialLogin = (platform: string) => {
     }
 }
 
-.form-item {
-    margin-bottom: 20px;
+/* 输入框样式 */
+.input-field {
+    margin-bottom: 16px;
 }
 
-/* 输入框样式 */
 .input-field :deep(.arco-input-wrapper) {
-    border-radius: 8px;
-    border: 1px solid #d9d9d9;
-    transition: all 0.2s ease;
+    border-radius: 12px;
+    border: 1px solid #e8e9ea;
+    background: #fafbfc;
+    transition: all 0.3s ease;
     height: 48px;
 }
 
 .input-field :deep(.arco-input-wrapper:hover) {
-    border-color: #1890ff;
+    border-color: #667eea;
+    background: white;
 }
 
 .input-field :deep(.arco-input-wrapper.arco-input-focus) {
-    border-color: #1890ff;
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .input-field :deep(.arco-input) {
+    background: transparent;
     padding-left: 40px;
     font-size: 14px;
+    color: #333;
+}
+
+.input-field :deep(.arco-input::placeholder) {
+    color: #aaa;
 }
 
 .input-icon {
-    color: #bfbfbf;
+    color: #999;
     font-size: 16px;
 }
 
@@ -450,15 +444,19 @@ const handleSocialLogin = (platform: string) => {
     margin-bottom: 24px;
 }
 
-.remember-checkbox :deep(.arco-checkbox-label) {
+.remember-me :deep(.arco-checkbox-label) {
     font-size: 14px;
     color: #666;
 }
 
-.forgot-link {
+.forgot-password {
     font-size: 14px;
-    color: #1890ff;
+    color: #667eea;
     text-decoration: none;
+}
+
+.forgot-password:hover {
+    color: #5a6fd8;
 }
 
 /* 协议部分 */
@@ -467,58 +465,62 @@ const handleSocialLogin = (platform: string) => {
 }
 
 .agreement-checkbox :deep(.arco-checkbox-label) {
-    font-size: 12px;
+    font-size: 13px;
     color: #666;
     line-height: 1.5;
 }
 
 .agreement-link {
-    color: #1890ff;
-    font-size: 12px;
+    color: #667eea;
+    font-size: 13px;
 }
 
 /* 提交按钮 */
-.submit-btn {
+.submit-button {
     height: 48px;
-    border-radius: 8px;
-    background: #1890ff;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
     font-size: 16px;
     font-weight: 500;
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
 }
 
-.submit-btn:hover {
-    background: #40a9ff;
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
 }
 
-.submit-btn:disabled {
-    background: #f5f5f5;
-    color: #bfbfbf;
+.submit-button:disabled {
+    background: #e8e9ea;
+    color: #aaa;
+    transform: none;
+    box-shadow: none;
 }
 
 /* 第三方登录 */
-.third-party-login {
-    margin-top: 32px;
+.social-login {
     text-align: center;
 }
 
-.divider-line {
+.divider {
     position: relative;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
-.divider-line::before {
+.divider::before {
     content: '';
     position: absolute;
     top: 50%;
     left: 0;
     right: 0;
     height: 1px;
-    background: #f0f0f0;
+    background: #e8e9ea;
 }
 
-.divider-line span {
-    background: #fff;
+.divider span {
+    background: rgba(255, 255, 255, 0.95);
     color: #999;
     padding: 0 16px;
     font-size: 12px;
@@ -527,66 +529,78 @@ const handleSocialLogin = (platform: string) => {
 .social-buttons {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 .social-btn {
-    width: 48px;
-    height: 48px;
-    border: 1px solid #e8e8e8;
-    border-radius: 50%;
-    background: #fff;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #e8e9ea;
+    border-radius: 12px;
+    background: white;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .social-btn:hover {
-    border-color: #1890ff;
+    border-color: #667eea;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .social-icon {
-    width: 24px;
-    height: 24px;
-    background-size: contain;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
 }
 
 .wechat-icon {
     background: #07c160;
-    border-radius: 4px;
 }
 
 .qq-icon {
     background: #1296db;
-    border-radius: 4px;
 }
 
 .github-icon {
     background: #24292e;
-    border-radius: 4px;
 }
 
-/* 响应式 */
+/* 响应式设计 */
 @media (max-width: 768px) {
     .login-container {
-        flex-direction: column;
+        padding: 16px;
     }
 
-    .decoration-area {
-        height: 200px;
-        padding: 40px 20px;
+    .login-card {
+        padding: 32px 24px;
+        border-radius: 16px;
     }
 
-    .welcome-title {
-        font-size: 28px;
+    .brand-name {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-wrapper {
+        max-width: 100%;
     }
 
-    .login-area {
-        width: 100%;
-        padding: 20px;
+    .login-card {
+        padding: 24px 20px;
+    }
+
+    .social-buttons {
+        gap: 8px;
+    }
+
+    .social-btn {
+        width: 40px;
+        height: 40px;
     }
 }
 </style>
